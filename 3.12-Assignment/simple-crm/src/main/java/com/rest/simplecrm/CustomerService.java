@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public interface CustomerService {
   Customer createCustomer(Customer customer);
 
-  Customer getCustomer(String id);
+  Customer getCustomer(int id);
 
   ArrayList<Customer> getAllCustomers();
 
-  Customer updateCustomer(String id, Customer customer);
+  Customer updateCustomer(int id, Customer customer);
 
-  void deleteCustomer(String id);
+  void deleteCustomer(int id);
 
 }

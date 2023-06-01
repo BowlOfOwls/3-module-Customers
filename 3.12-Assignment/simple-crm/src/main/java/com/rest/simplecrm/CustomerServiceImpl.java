@@ -1,8 +1,8 @@
 package com.rest.simplecrm;
 
 import java.util.ArrayList;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 // Service is where we will put our business logic (i.e. decisions, procesing, computations, etc.)
@@ -18,58 +18,58 @@ public class CustomerServiceImpl implements CustomerService {
 
   // private CustomerRepository customerRepository = new CustomerRepository();
 
-  @Autowired
+  // Field-based injection
+  // @Autowired
+  // private CustomerRepository customerRepository;
   private CustomerRepository customerRepository;
+
+  // Constructor-based injection
+  // @Autowired
+  public CustomerServiceImpl(CustomerRepository customerRepository) {
+    this.customerRepository = customerRepository;
+  }
+  // CustomerServiceImpl(mockRepository)
 
   // Create
   @Override
   public Customer createCustomer(Customer customer) {
-    Customer newCustomer = customerRepository.createCustomer(customer);
-    // return customerRepository.createCustomer(customer);
+    Customer newCustomer = customerRepository.save(customer);
     return newCustomer;
   }
 
   // Get One
   @Override
-  public Customer getCustomer(String id) {
-    Customer foundCustomer = customerRepository.getCustomer(findIndexById(id));
+  public Customer getCustomer(int id) {
+    Customer foundCustomer = customerRepository.findById(id).get();
     return foundCustomer;
   }
-
   // Get All
   @Override
   public ArrayList<Customer> getAllCustomers() {
-    ArrayList<Customer> allCustomers = customerRepository.getAllCustomers();
-    return allCustomers;
+    List<Customer> allCustomers = customerRepository.findAll();
+    return (ArrayList<Customer>) allCustomers;
   }
 
   // Update
   @Override
-  public Customer updateCustomer(String id, Customer customer) {
-    Customer updatedCustomer = customerRepository.updateCustomer(findIndexById(id), customer);
-    return updatedCustomer;
+  public Customer updateCustomer(int id, Customer customer) {
+    Customer customerToUpdate = customerRepository.findById(id).get();
+
+    // Update the customer retrieved from DB
+    customerToUpdate.setFirstName(customer.getFirstName());
+    customerToUpdate.setLastName(customer.getLastName());
+    customerToUpdate.setEmail(customer.getEmail());
+    customerToUpdate.setContactNo(customer.getContactNo());
+    customerToUpdate.setJobTitle(customer.getJobTitle());
+    customerToUpdate.setYob(customer.getYob());
+    
+    return customerRepository.save(customerToUpdate);
   }
 
   // Delete
   @Override
-  public void deleteCustomer(String id) {
-    customerRepository.deleteCustomer(findIndexById(id));
-  }
-
-  // Technically this is part of the business logic and should in be service
-  // Because the controller mainly just handles HTTP request and response
-  // Helper Method
-  private int findIndexById(String id) {
-
-    for (Customer customer : customerRepository.getAllCustomers()) {
-      if (customer.getId().equals(id)) {
-        return customerRepository.getAllCustomers().indexOf(customer);
-      }
-    }
-
-    // return -1;
-    throw new CustmoerNotFoundException();
-
+  public void deleteCustomer(int id) {
+    customerRepository.deleteById(id);
   }
 
 }

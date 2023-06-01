@@ -1,26 +1,47 @@
 package com.rest.simplecrm;
 
-import java.util.UUID;
+// import java.util.UUID;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="customer")
 public class Customer {
-    private String id;
 
-    public String getId() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "customer")
+    private int id;
+    @Column(name = "first_name")
+    private String firstName;
+    @Column(name = "last_name")
+    private String lastName;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "contact_no")
+    private String contactNo;
+    @Column(name = "jobtitle")
+    private String jobTitle;
+    @Column(name = "yob")
+    private int yob;
+
+    public int getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String contactNo;
-    private String jobTitle;
 
-    public Customer() {
-        this.id = UUID.randomUUID().toString();
-    }
+    // public Customer() {
+    //     this.id = UUID.randomUUID().toString();
+    // }
 
     public String getFirstName() {
         return this.firstName;
@@ -62,13 +83,12 @@ public class Customer {
         this.jobTitle = jobTitle;
     }
 
-    public Number getYob() {
+    public int getYob() {
         return this.yob;
     }
 
-    public void setYob(Number yob) {
+    public void setYob(int yob) {
         this.yob = yob;
     }
-    private Number yob;
 
 }

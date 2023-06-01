@@ -44,39 +44,25 @@ public class CustomerController {
 
   // Get Customer
   @GetMapping("/{id}")
-  public ResponseEntity<Customer> getCustomer(@PathVariable String id) {
-
-    try {
-      Customer foundCustomer = customerService.getCustomer(id);
-      return new ResponseEntity<>(foundCustomer, HttpStatus.OK);
-    } catch (CustmoerNotFoundException e) {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+  public ResponseEntity<Customer> getCustomer(@PathVariable int id) {
+    Customer foundCustomer = customerService.getCustomer(id);
+    return new ResponseEntity<>(foundCustomer, HttpStatus.OK);
 
   }
 
   // 3. UPDATE
   @PutMapping("/{id}")
-  public ResponseEntity<Customer> updateCustomer(@PathVariable String id, @RequestBody Customer customer) {
-    
-    try {
-        Customer updatedCustomer = customerService.updateCustomer(id, customer);
-        return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
-      } catch (CustmoerNotFoundException e) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }
+  public ResponseEntity<Customer> updateCustomer(@PathVariable int id, @RequestBody Customer customer) {
+      Customer updatedCustomer = customerService.updateCustomer(id, customer);
+      return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
 
   }
 
   // 4. DELETE
   @DeleteMapping("/{id}")
-  public ResponseEntity<HttpStatus> deleteCustomer(@PathVariable String id) {
-    try {
-        customerService.deleteCustomer(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-      } catch (CustmoerNotFoundException e) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }
+  public ResponseEntity<HttpStatus> deleteCustomer(@PathVariable int id) {
+      customerService.deleteCustomer(id);
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
 }
